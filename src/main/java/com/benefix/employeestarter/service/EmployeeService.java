@@ -16,7 +16,7 @@ public interface EmployeeService {
 
   CompletableFuture<EmployeeResponseDTO> create(CreateEmployeeRequestDTO request);
 
-  CompletableFuture<EmployeeResponseDTO> update(Long id, UpdateEmployeeRequestDTO request);
+  CompletableFuture<EmployeeResponseDTO> update(String employeeNo, UpdateEmployeeRequestDTO request);
 
-  CompletableFuture<Void> delete(Long id);
+  CompletableFuture<Void> delete(String employeeNo);
 }

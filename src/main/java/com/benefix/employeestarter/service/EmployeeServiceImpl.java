@@ -73,9 +73,9 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   @Async
   @Transactional
-  public CompletableFuture<EmployeeResponseDTO> update(Long id, UpdateEmployeeRequestDTO request) {
+  public CompletableFuture<EmployeeResponseDTO> update(String employeeNo, UpdateEmployeeRequestDTO request) {
     EmployeeEntity entity =
-        employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException.withId(id));
+        employeeRepository.findByEmployeeNo(employeeNo).orElseThrow(EmployeeNotFoundException.withEmployeeNo(employeeNo));
 
     if (!entity.getEmail().equals(request.email())
         && employeeRepository.existsByEmail(request.email())) {
@@ -89,9 +89,9 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   @Async
   @Transactional
-  public CompletableFuture<Void> delete(Long id) {
+  public CompletableFuture<Void> delete(String employeeNo) {
     EmployeeEntity entity =
-        employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException.withId(id));
+        employeeRepository.findByEmployeeNo(employeeNo).orElseThrow(EmployeeNotFoundException.withEmployeeNo(employeeNo));
     entity.delete();
     return CompletableFuture.completedFuture(null);
   }

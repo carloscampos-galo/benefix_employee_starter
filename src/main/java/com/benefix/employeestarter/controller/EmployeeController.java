@@ -23,20 +23,12 @@ public interface EmployeeController {
   @GetMapping
   CompletableFuture<List<EmployeeResponseDTO>> findAll();
 
-  @Operation(summary = "Get employee by ID", description = "Retrieves an employee by their database ID")
-  @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "Successfully retrieved employee"),
-    @ApiResponse(responseCode = "404", description = "Employee not found")
-  })
-  @GetMapping("/{id}")
-  CompletableFuture<EmployeeResponseDTO> findById(@Parameter(description = "Employee ID") @PathVariable Long id);
-
   @Operation(summary = "Get employee by employee number", description = "Retrieves an employee by their employee number")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Successfully retrieved employee"),
     @ApiResponse(responseCode = "404", description = "Employee not found")
   })
-  @GetMapping("/employee-no/{employeeNo}")
+  @GetMapping("/{employeeNo}")
   CompletableFuture<EmployeeResponseDTO> findByEmployeeNo(
       @Parameter(description = "Employee number") @PathVariable String employeeNo);
 
@@ -57,9 +49,9 @@ public interface EmployeeController {
     @ApiResponse(responseCode = "404", description = "Employee not found"),
     @ApiResponse(responseCode = "409", description = "Email already exists")
   })
-  @PutMapping("/{id}")
+  @PutMapping("/{employeeNo}")
   CompletableFuture<EmployeeResponseDTO> update(
-      @Parameter(description = "Employee ID") @PathVariable Long id,
+      @Parameter(description = "Employee number") @PathVariable String employeeNo,
       @Valid @RequestBody UpdateEmployeeRequestDTO request);
 
   @Operation(summary = "Delete employee", description = "Soft deletes an employee")
@@ -67,7 +59,7 @@ public interface EmployeeController {
     @ApiResponse(responseCode = "204", description = "Employee deleted successfully"),
     @ApiResponse(responseCode = "404", description = "Employee not found")
   })
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/{employeeNo}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  CompletableFuture<Void> delete(@Parameter(description = "Employee ID") @PathVariable Long id);
+  CompletableFuture<Void> delete(@Parameter(description = "Employee number") @PathVariable String employeeNo);
 }

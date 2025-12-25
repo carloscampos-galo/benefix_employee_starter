@@ -23,11 +23,6 @@ public class EmployeeControllerImpl implements EmployeeController {
   }
 
   @Override
-  public CompletableFuture<EmployeeResponseDTO> findById(Long id) {
-    return employeeService.findById(id);
-  }
-
-  @Override
   public CompletableFuture<EmployeeResponseDTO> findByEmployeeNo(String employeeNo) {
     return employeeService.findByEmployeeNo(employeeNo);
   }
@@ -38,12 +33,12 @@ public class EmployeeControllerImpl implements EmployeeController {
   }
 
   @Override
-  public CompletableFuture<EmployeeResponseDTO> update(Long id, UpdateEmployeeRequestDTO request) {
-    return employeeService.update(id, request);
+  public CompletableFuture<EmployeeResponseDTO> update(String employeeNo, UpdateEmployeeRequestDTO request) {
+    return employeeService.update(employeeNo, request);
   }
 
   @Override
-  public CompletableFuture<Void> delete(Long id) {
-    return employeeService.delete(id);
+  public CompletableFuture<Void> delete(String employeeNo) {
+    return employeeService.delete(employeeNo);
   }
 }
