@@ -1,6 +1,6 @@
-# Employee Starter API
+# Benifex Employee Starter API
 
-A Spring Boot RESTful API for employee management with PostgreSQL database and Docker support.
+Benifex Employee Starter API take home technical task. 
 
 ## Tech Stack
 
