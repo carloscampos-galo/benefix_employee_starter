@@ -1,0 +1,36 @@
+package com.benefix.employeestarter.entity.generator;
+
+import java.time.Year;
+import java.util.EnumSet;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.generator.BeforeExecutionGenerator;
+import org.hibernate.generator.EventType;
+import org.hibernate.generator.EventTypeSets;
+
+public class EmployeeNoGenerator implements BeforeExecutionGenerator {
+
+  private static final String SEQUENCE_QUERY = "SELECT nextval('employee_no_seq')";
+  private static final String FORMAT = "EMP_%02d%03d";
+
+  @Override
+  public Object generate(
+      SharedSessionContractImplementor session,
+      Object owner,
+      Object currentValue,
+      EventType eventType) {
+
+    if (currentValue != null) {
+      return currentValue;
+    }
+
+    int year = Year.now().getValue() % 100;
+    Long nextVal = session.createNativeQuery(SEQUENCE_QUERY, Long.class).getSingleResult();
+
+    return String.format(FORMAT, year, nextVal);
+  }
+
+  @Override
+  public EnumSet<EventType> getEventTypes() {
+    return EventTypeSets.INSERT_ONLY;
+  }
+}

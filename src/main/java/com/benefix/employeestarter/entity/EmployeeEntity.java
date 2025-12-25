@@ -1,6 +1,7 @@
 package com.benefix.employeestarter.entity;
 
 import com.benefix.employeestarter.entity.embeddable.AddressEmbeddable;
+import com.benefix.employeestarter.entity.generator.GeneratedEmployeeNo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -19,7 +20,8 @@ public class EmployeeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "employee_no", unique = true, nullable = false)
+  @GeneratedEmployeeNo
+  @Column(name = "employee_no", unique = true, nullable = false, updatable = false)
   private String employeeNo;
 
   @Column(name = "title", nullable = false)
