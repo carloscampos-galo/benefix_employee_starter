@@ -5,6 +5,7 @@ import com.benefix.employeestarter.dto.request.UpdateEmployeeRequestDTO;
 import com.benefix.employeestarter.dto.response.EmployeeResponseDTO;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,22 +13,23 @@ import org.springframework.web.bind.annotation.*;
 public interface EmployeeController {
 
   @GetMapping
-  List<EmployeeResponseDTO> findAll();
+  CompletableFuture<List<EmployeeResponseDTO>> findAll();
 
   @GetMapping("/{id}")
-  EmployeeResponseDTO findById(@PathVariable Long id);
+  CompletableFuture<EmployeeResponseDTO> findById(@PathVariable Long id);
 
   @GetMapping("/employee-no/{employeeNo}")
-  EmployeeResponseDTO findByEmployeeNo(@PathVariable String employeeNo);
+  CompletableFuture<EmployeeResponseDTO> findByEmployeeNo(@PathVariable String employeeNo);
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  EmployeeResponseDTO create(@Valid @RequestBody CreateEmployeeRequestDTO request);
+  CompletableFuture<EmployeeResponseDTO> create(@Valid @RequestBody CreateEmployeeRequestDTO request);
 
   @PutMapping("/{id}")
-  EmployeeResponseDTO update(@PathVariable Long id, @Valid @RequestBody UpdateEmployeeRequestDTO request);
+  CompletableFuture<EmployeeResponseDTO> update(
+      @PathVariable Long id, @Valid @RequestBody UpdateEmployeeRequestDTO request);
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  void delete(@PathVariable Long id);
+  CompletableFuture<Void> delete(@PathVariable Long id);
 }
