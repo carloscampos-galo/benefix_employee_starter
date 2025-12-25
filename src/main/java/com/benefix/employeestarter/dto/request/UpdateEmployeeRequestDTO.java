@@ -1,6 +1,5 @@
 package com.benefix.employeestarter.dto.request;
 
-import com.benefix.employeestarter.entity.embeddable.AddressEmbeddable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,17 +16,4 @@ public record UpdateEmployeeRequestDTO(
     @NotBlank(message = "Street is required") String street,
     String city,
     String postcode,
-    @NotBlank(message = "Country is required") String country) {
-
-  public AddressEmbeddable toAddressEmbeddable() {
-    if (street == null && city == null && postcode == null && country == null) {
-      return null;
-    }
-    return AddressEmbeddable.builder()
-        .street(street)
-        .city(city)
-        .postcode(postcode)
-        .country(country)
-        .build();
-  }
-}
+    @NotBlank(message = "Country is required") String country) {}
