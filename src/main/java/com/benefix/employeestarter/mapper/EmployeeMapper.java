@@ -5,6 +5,7 @@ import com.benefix.employeestarter.dto.request.UpdateEmployeeRequestDTO;
 import com.benefix.employeestarter.dto.response.EmployeeResponseDTO;
 import com.benefix.employeestarter.entity.EmployeeEntity;
 import com.benefix.employeestarter.entity.embeddable.AddressEmbeddable;
+import com.benefix.employeestarter.enums.Gender;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +25,6 @@ public class EmployeeMapper {
 
   public EmployeeEntity.Builder toBuilder(UpdateEmployeeRequestDTO request) {
     return EmployeeEntity.builder()
-        .employeeNo(request.employeeNo())
         .title(request.title())
         .firstName(request.firstName())
         .surname(request.surname())

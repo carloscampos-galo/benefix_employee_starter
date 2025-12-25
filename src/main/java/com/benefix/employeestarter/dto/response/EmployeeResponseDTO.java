@@ -2,6 +2,7 @@ package com.benefix.employeestarter.dto.response;
 
 import com.benefix.employeestarter.entity.EmployeeEntity;
 import com.benefix.employeestarter.entity.embeddable.AddressEmbeddable;
+import com.benefix.employeestarter.enums.Gender;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
@@ -12,7 +13,7 @@ public record EmployeeResponseDTO(
     String firstName,
     String surname,
     LocalDate dateOfBirth,
-    String gender,
+    Gender gender,
     String email,
     String street,
     String city,

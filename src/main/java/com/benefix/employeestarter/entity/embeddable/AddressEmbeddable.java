@@ -2,6 +2,7 @@ package com.benefix.employeestarter.entity.embeddable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class AddressEmbeddable {
@@ -22,6 +23,23 @@ public class AddressEmbeddable {
 
   private AddressEmbeddable(Builder builder) {
     this.update(builder);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(street, city, postcode, country);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    AddressEmbeddable other = (AddressEmbeddable) obj;
+    return Objects.equals(street, other.street)
+        && Objects.equals(city, other.city)
+        && Objects.equals(postcode, other.postcode)
+        && Objects.equals(country, other.country);
   }
 
   public static Builder builder() {

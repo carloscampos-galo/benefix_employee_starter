@@ -24,8 +24,16 @@ public class EmployeeNoGenerator implements BeforeExecutionGenerator {
     }
 
     int year = Year.now().getValue() % 100;
-    Long nextVal = session.createNativeQuery(SEQUENCE_QUERY, Long.class).getSingleResult();
-
+    // Safer: use JDBC directly to avoid session state issues
+    Long nextVal =
+        session.doReturningWork(
+            connection -> {
+              try (var stmt = connection.prepareStatement(SEQUENCE_QUERY);
+                  var rs = stmt.executeQuery()) {
+                rs.next();
+                return rs.getLong(1);
+              }
+            });
     return String.format(FORMAT, year, nextVal);
   }
 

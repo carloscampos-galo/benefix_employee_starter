@@ -29,7 +29,7 @@ public class AsyncConfig implements AsyncConfigurer {
   @Value("${async.executor.thread-name-prefix:async-}")
   private String threadNamePrefix;
 
-  @Value("${async.executor.await-termination-seconds:30}")
+  @Value("${async.executor.await-termination-seconds:60}")
   private int awaitTerminationSeconds;
 
   @Override
@@ -41,6 +41,7 @@ public class AsyncConfig implements AsyncConfigurer {
     executor.setThreadNamePrefix(threadNamePrefix);
     executor.setWaitForTasksToCompleteOnShutdown(true);
     executor.setAwaitTerminationSeconds(awaitTerminationSeconds);
+    executor.initialize();
     return executor;
   }
 

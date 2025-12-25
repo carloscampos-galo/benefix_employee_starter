@@ -1,5 +1,6 @@
 package com.benefix.employeestarter.dto.request;
 
+import com.benefix.employeestarter.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ public record CreateEmployeeRequestDTO(
     @NotBlank(message = "Firstname is required") String firstName,
     @NotBlank(message = "Surname is required") String surname,
     @NotNull(message = "Date of birth is required") LocalDate dateOfBirth,
-    @NotBlank(message = "Gender is required") String gender,
+    @NotNull(message = "Gender is required") Gender gender,
     @NotBlank(message = "Email is required") @Email(message = "Invalid email") String email,
     @NotBlank(message = "Street is required") String street,
     String city,

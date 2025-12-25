@@ -2,9 +2,11 @@ package com.benefix.employeestarter.entity;
 
 import com.benefix.employeestarter.entity.embeddable.AddressEmbeddable;
 import com.benefix.employeestarter.entity.generator.GeneratedEmployeeNo;
+import com.benefix.employeestarter.enums.Gender;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,7 +23,7 @@ public class EmployeeEntity {
   private Long id;
 
   @GeneratedEmployeeNo
-  @Column(name = "employee_no", unique = true, nullable = false, updatable = false)
+  @Column(name = "employee_no", unique = true, updatable = false)
   private String employeeNo;
 
   @Column(name = "title", nullable = false)
@@ -36,8 +38,9 @@ public class EmployeeEntity {
   @Column(name = "date_of_birth", nullable = false)
   private LocalDate dateOfBirth;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "gender", nullable = false)
-  private String gender;
+  private Gender gender;
 
   @Column(name = "email", unique = true, nullable = false)
   private String email;
@@ -71,7 +74,6 @@ public class EmployeeEntity {
 
   public Builder toBuilder() {
     return new Builder()
-        .employeeNo(this.employeeNo)
         .title(this.title)
         .firstName(this.firstName)
         .surname(this.surname)
@@ -82,7 +84,6 @@ public class EmployeeEntity {
   }
 
   public void update(Builder builder) {
-    this.employeeNo = builder.employeeNo;
     this.title = builder.title;
     this.firstName = builder.firstName;
     this.surname = builder.surname;
@@ -116,7 +117,7 @@ public class EmployeeEntity {
     return dateOfBirth;
   }
 
-  public String getGender() {
+  public Gender getGender() {
     return gender;
   }
 
@@ -144,22 +145,29 @@ public class EmployeeEntity {
     this.isDeleted = true;
   }
 
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    EmployeeEntity other = (EmployeeEntity) obj;
+    return id != null && Objects.equals(id, other.id);
+  }
+
   public static class Builder {
-    private String employeeNo;
     private String title;
     private String firstName;
     private String surname;
     private LocalDate dateOfBirth;
-    private String gender;
+    private Gender gender;
     private String email;
     private AddressEmbeddable address;
 
     private Builder() {}
-
-    public Builder employeeNo(String employeeNo) {
-      this.employeeNo = employeeNo;
-      return this;
-    }
 
     public Builder title(String title) {
       this.title = title;
@@ -181,7 +189,7 @@ public class EmployeeEntity {
       return this;
     }
 
-    public Builder gender(String gender) {
+    public Builder gender(Gender gender) {
       this.gender = gender;
       return this;
     }
