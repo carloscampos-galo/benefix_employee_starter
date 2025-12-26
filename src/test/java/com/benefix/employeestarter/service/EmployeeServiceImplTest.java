@@ -47,13 +47,13 @@ class EmployeeServiceImplTest {
   void setUp() {
     employeeEntity = mock(EmployeeEntity.class);
     when(employeeEntity.getId()).thenReturn(1L);
-    when(employeeEntity.getEmployeeNo()).thenReturn("EMP25-001");
+    when(employeeEntity.getEmployeeNo()).thenReturn("EMP-20250001");
     when(employeeEntity.getEmail()).thenReturn("john.doe@example.com");
 
     employeeResponseDTO =
         new EmployeeResponseDTO(
             1L,
-            "EMP25-001",
+            "EMP-20250001",
             "Mr",
             "John",
             "Doe",
@@ -121,39 +121,17 @@ class EmployeeServiceImplTest {
   }
 
   @Nested
-  class FindById {
-
-    @Test
-    void findById_returnsEmployee_whenFound() throws Exception {
-      when(employeeRepository.findById(1L)).thenReturn(Optional.of(employeeEntity));
-      when(employeeMapper.toResponse(employeeEntity)).thenReturn(employeeResponseDTO);
-
-      CompletableFuture<EmployeeResponseDTO> result = employeeService.findById(1L);
-
-      assertEquals(employeeResponseDTO, result.get());
-      verify(employeeRepository).findById(1L);
-    }
-
-    @Test
-    void findById_throwsException_whenNotFound() {
-      when(employeeRepository.findById(999L)).thenReturn(Optional.empty());
-
-      assertThrows(EmployeeNotFoundException.class, () -> employeeService.findById(999L));
-    }
-  }
-
-  @Nested
   class FindByEmployeeNo {
 
     @Test
     void findByEmployeeNo_returnsEmployee_whenFound() throws Exception {
-      when(employeeRepository.findByEmployeeNo("EMP25-001")).thenReturn(Optional.of(employeeEntity));
+      when(employeeRepository.findByEmployeeNo("EMP-20250001")).thenReturn(Optional.of(employeeEntity));
       when(employeeMapper.toResponse(employeeEntity)).thenReturn(employeeResponseDTO);
 
-      CompletableFuture<EmployeeResponseDTO> result = employeeService.findByEmployeeNo("EMP25-001");
+      CompletableFuture<EmployeeResponseDTO> result = employeeService.findByEmployeeNo("EMP-20250001");
 
       assertEquals(employeeResponseDTO, result.get());
-      verify(employeeRepository).findByEmployeeNo("EMP25-001");
+      verify(employeeRepository).findByEmployeeNo("EMP-20250001");
     }
 
     @Test
@@ -195,15 +173,17 @@ class EmployeeServiceImplTest {
 
     @Test
     void update_updatesAndReturnsEmployee() throws Exception {
-      when(employeeRepository.findByEmployeeNo("EMP25-001")).thenReturn(Optional.of(employeeEntity));
+      when(employeeRepository.findByEmployeeNo("EMP-20250001")).thenReturn(Optional.of(employeeEntity));
       when(employeeMapper.toBuilder(updateRequest)).thenReturn(EmployeeEntity.builder());
+      when(employeeRepository.save(employeeEntity)).thenReturn(employeeEntity);
       when(employeeMapper.toResponse(employeeEntity)).thenReturn(employeeResponseDTO);
 
       CompletableFuture<EmployeeResponseDTO> result =
-          employeeService.update("EMP25-001", updateRequest);
+          employeeService.update("EMP-20250001", updateRequest);
 
       assertEquals(employeeResponseDTO, result.get());
       verify(employeeEntity).update(any(EmployeeEntity.Builder.class));
+      verify(employeeRepository).save(employeeEntity);
     }
 
     @Test
@@ -230,22 +210,23 @@ class EmployeeServiceImplTest {
               "M1 1AA",
               "UK");
 
-      when(employeeRepository.findByEmployeeNo("EMP25-001")).thenReturn(Optional.of(employeeEntity));
+      when(employeeRepository.findByEmployeeNo("EMP-20250001")).thenReturn(Optional.of(employeeEntity));
       when(employeeRepository.existsByEmail("different@example.com")).thenReturn(true);
 
       assertThrows(
           EmailAlreadyExistsException.class,
-          () -> employeeService.update("EMP25-001", requestWithNewEmail));
+          () -> employeeService.update("EMP-20250001", requestWithNewEmail));
     }
 
     @Test
     void update_allowsSameEmail_whenEmailUnchanged() throws Exception {
-      when(employeeRepository.findByEmployeeNo("EMP25-001")).thenReturn(Optional.of(employeeEntity));
+      when(employeeRepository.findByEmployeeNo("EMP-20250001")).thenReturn(Optional.of(employeeEntity));
       when(employeeMapper.toBuilder(updateRequest)).thenReturn(EmployeeEntity.builder());
+      when(employeeRepository.save(employeeEntity)).thenReturn(employeeEntity);
       when(employeeMapper.toResponse(employeeEntity)).thenReturn(employeeResponseDTO);
 
       CompletableFuture<EmployeeResponseDTO> result =
-          employeeService.update("EMP25-001", updateRequest);
+          employeeService.update("EMP-20250001", updateRequest);
 
       assertNotNull(result.get());
       verify(employeeRepository, never()).existsByEmail(any());
@@ -257,12 +238,14 @@ class EmployeeServiceImplTest {
 
     @Test
     void delete_softDeletesEmployee() throws Exception {
-      when(employeeRepository.findByEmployeeNo("EMP25-001")).thenReturn(Optional.of(employeeEntity));
+      when(employeeRepository.findByEmployeeNo("EMP-20250001")).thenReturn(Optional.of(employeeEntity));
+      when(employeeRepository.save(employeeEntity)).thenReturn(employeeEntity);
 
-      CompletableFuture<Void> result = employeeService.delete("EMP25-001");
+      CompletableFuture<Void> result = employeeService.delete("EMP-20250001");
 
       result.get();
       verify(employeeEntity).delete();
+      verify(employeeRepository).save(employeeEntity);
     }
 
     @Test

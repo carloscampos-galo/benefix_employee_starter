@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -57,11 +58,15 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(
       HttpMessageNotReadableException ex) {
     if (ex.getCause() instanceof InvalidFormatException invalidFormatException
+        && invalidFormatException.getTargetType() != null
         && invalidFormatException.getTargetType().isEnum()) {
       String fieldName =
           invalidFormatException.getPath().stream()
-              .map(ref -> ref.getFieldName())
+              .map(ref -> Objects.requireNonNullElse(ref.getFieldName(), "unknown"))
               .collect(Collectors.joining("."));
+      if (fieldName.isEmpty()) {
+        fieldName = "unknown";
+      }
       String validValues =
           Arrays.stream(invalidFormatException.getTargetType().getEnumConstants())
               .map(Object::toString)

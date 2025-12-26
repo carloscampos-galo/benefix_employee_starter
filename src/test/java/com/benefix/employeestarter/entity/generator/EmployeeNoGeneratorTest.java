@@ -38,7 +38,7 @@ class EmployeeNoGeneratorTest {
 
   @Test
   void generate_whenCurrentValueIsNotNull_returnsCurrentValue() {
-    String existingValue = "EMP24-001";
+    String existingValue = "EMP-20250001";
 
     Object result = generator.generate(session, null, existingValue, EventType.INSERT);
 
@@ -49,8 +49,8 @@ class EmployeeNoGeneratorTest {
   @Test
   void generate_whenCurrentValueIsNull_generatesNewEmployeeNumber() throws Exception {
     long sequenceValue = 42L;
-    int expectedYear = Year.now().getValue() % 100;
-    String expectedFormat = String.format("EMP%02d-%03d", expectedYear, sequenceValue);
+    int expectedYear = Year.now().getValue();
+    String expectedFormat = String.format("EMP-%d%04d", expectedYear, sequenceValue);
 
     when(session.doReturningWork(any())).thenAnswer(invocation -> {
       ReturningWork<Long> work = invocation.getArgument(0);
@@ -69,8 +69,8 @@ class EmployeeNoGeneratorTest {
   @Test
   void generate_formatsSequenceWithLeadingZeros() throws Exception {
     long sequenceValue = 1L;
-    int expectedYear = Year.now().getValue() % 100;
-    String expectedFormat = String.format("EMP%02d-001", expectedYear);
+    int expectedYear = Year.now().getValue();
+    String expectedFormat = String.format("EMP-%d0001", expectedYear);
 
     when(session.doReturningWork(any())).thenAnswer(invocation -> {
       ReturningWork<Long> work = invocation.getArgument(0);

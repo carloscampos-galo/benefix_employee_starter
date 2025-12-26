@@ -10,8 +10,6 @@ public interface EmployeeService {
 
   CompletableFuture<List<EmployeeResponseDTO>> findAll();
 
-  CompletableFuture<EmployeeResponseDTO> findById(Long id);
-
   CompletableFuture<EmployeeResponseDTO> findByEmployeeNo(String employeeNo);
 
   CompletableFuture<EmployeeResponseDTO> create(CreateEmployeeRequestDTO request);

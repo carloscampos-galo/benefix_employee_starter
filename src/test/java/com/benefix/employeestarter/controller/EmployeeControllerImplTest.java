@@ -36,7 +36,7 @@ class EmployeeControllerImplTest {
     employeeResponseDTO =
         new EmployeeResponseDTO(
             1L,
-            "EMP25-001",
+            "EMP25-0001",
             "Mr",
             "John",
             "Doe",
@@ -112,14 +112,14 @@ class EmployeeControllerImplTest {
     void findByEmployeeNo_delegatesToService() throws Exception {
       CompletableFuture<EmployeeResponseDTO> expected =
           CompletableFuture.completedFuture(employeeResponseDTO);
-      when(employeeService.findByEmployeeNo("EMP25-001")).thenReturn(expected);
+      when(employeeService.findByEmployeeNo("EMP25-0001")).thenReturn(expected);
 
       CompletableFuture<EmployeeResponseDTO> result =
-          employeeController.findByEmployeeNo("EMP25-001");
+          employeeController.findByEmployeeNo("EMP25-0001");
 
       assertEquals(expected, result);
       assertEquals(employeeResponseDTO, result.get());
-      verify(employeeService).findByEmployeeNo("EMP25-001");
+      verify(employeeService).findByEmployeeNo("EMP25-0001");
     }
   }
 
@@ -147,14 +147,14 @@ class EmployeeControllerImplTest {
     void update_delegatesToService() throws Exception {
       CompletableFuture<EmployeeResponseDTO> expected =
           CompletableFuture.completedFuture(employeeResponseDTO);
-      when(employeeService.update("EMP25-001", updateRequest)).thenReturn(expected);
+      when(employeeService.update("EMP25-0001", updateRequest)).thenReturn(expected);
 
       CompletableFuture<EmployeeResponseDTO> result =
-          employeeController.update("EMP25-001", updateRequest);
+          employeeController.update("EMP25-0001", updateRequest);
 
       assertEquals(expected, result);
       assertEquals(employeeResponseDTO, result.get());
-      verify(employeeService).update("EMP25-001", updateRequest);
+      verify(employeeService).update("EMP25-0001", updateRequest);
     }
   }
 
@@ -164,13 +164,13 @@ class EmployeeControllerImplTest {
     @Test
     void delete_delegatesToService() throws Exception {
       CompletableFuture<Void> expected = CompletableFuture.completedFuture(null);
-      when(employeeService.delete("EMP25-001")).thenReturn(expected);
+      when(employeeService.delete("EMP25-0001")).thenReturn(expected);
 
-      CompletableFuture<Void> result = employeeController.delete("EMP25-001");
+      CompletableFuture<Void> result = employeeController.delete("EMP25-0001");
 
       assertEquals(expected, result);
       assertNull(result.get());
-      verify(employeeService).delete("EMP25-001");
+      verify(employeeService).delete("EMP25-0001");
     }
   }
 }
