@@ -5,7 +5,6 @@ import com.benefix.employeestarter.dto.request.UpdateEmployeeRequestDTO;
 import com.benefix.employeestarter.dto.response.EmployeeResponseDTO;
 import com.benefix.employeestarter.entity.EmployeeEntity;
 import com.benefix.employeestarter.entity.embeddable.AddressEmbeddable;
-import com.benefix.employeestarter.enums.Gender;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +18,9 @@ public class EmployeeMapper {
         .dateOfBirth(request.dateOfBirth())
         .gender(request.gender())
         .email(request.email())
-        .address(toAddressEmbeddable(request.street(), request.city(), request.postcode(), request.country()))
+        .address(
+            toAddressEmbeddable(
+                request.street(), request.city(), request.postcode(), request.country()))
         .build();
   }
 
@@ -31,7 +32,9 @@ public class EmployeeMapper {
         .dateOfBirth(request.dateOfBirth())
         .gender(request.gender())
         .email(request.email())
-        .address(toAddressEmbeddable(request.street(), request.city(), request.postcode(), request.country()));
+        .address(
+            toAddressEmbeddable(
+                request.street(), request.city(), request.postcode(), request.country()));
   }
 
   public EmployeeResponseDTO toResponse(EmployeeEntity entity) {
@@ -53,7 +56,8 @@ public class EmployeeMapper {
         entity.getUpdatedAt());
   }
 
-  private AddressEmbeddable toAddressEmbeddable(String street, String city, String postcode, String country) {
+  private AddressEmbeddable toAddressEmbeddable(
+      String street, String city, String postcode, String country) {
     if (street == null && city == null && postcode == null && country == null) {
       return null;
     }

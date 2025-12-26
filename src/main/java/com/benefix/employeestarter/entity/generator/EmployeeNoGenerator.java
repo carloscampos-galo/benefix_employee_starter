@@ -10,7 +10,7 @@ import org.hibernate.generator.EventTypeSets;
 public class EmployeeNoGenerator implements BeforeExecutionGenerator {
 
   private static final String SEQUENCE_QUERY = "SELECT nextval('employee_no_seq')";
-  private static final String FORMAT = "EMP_%02d%03d";
+  private static final String FORMAT = "EMP%02d-%03d";
 
   @Override
   public Object generate(
