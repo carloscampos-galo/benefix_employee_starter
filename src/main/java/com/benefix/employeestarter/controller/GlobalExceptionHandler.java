@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
               .map(Object::toString)
               .collect(Collectors.joining(", "));
       Map<String, String> fieldErrors = new HashMap<>();
-      fieldErrors.put(fieldName, "Must be one of: " + validValues);
+      fieldErrors.put(fieldName, String.format("Must be one of: %s", validValues));
       ErrorResponse error =
           new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation failed", fieldErrors);
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);

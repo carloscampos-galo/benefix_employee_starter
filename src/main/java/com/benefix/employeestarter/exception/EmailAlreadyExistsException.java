@@ -3,6 +3,6 @@ package com.benefix.employeestarter.exception;
 public class EmailAlreadyExistsException extends RuntimeException {
 
   public EmailAlreadyExistsException(String email) {
-    super("Email already exists: " + email);
+    super(String.format("Email already exists: %s", email));
   }
 }
